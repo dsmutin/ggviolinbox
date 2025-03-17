@@ -1,12 +1,12 @@
 Package: ggviolinbox
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Half violin and boxplot geoms for extended ggplot2 graphics 
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: D.Smutin
+Maintainer: D. Smutin <dvsmutin@gmail.com>
+Description: 
+The ggviolinbox package extends ggplot2 by providing custom geoms for creating half-violin plots, half-boxplots, and combinations of both. These functions are useful for visualizing distributions and comparisons in a compact and elegant way.
+License: MIT
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
