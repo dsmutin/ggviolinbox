@@ -9,7 +9,7 @@ The `ggviolinbox` package extends `ggplot2` by providing custom geoms for creati
 You can install the `ggviolinbox` package from GitHub using the `devtools` package:
 
 ```r
-install.packages("devtools")
+if(!require(devtools)) install.packages("devtools")
 devtools::install_github("dsmutin/ggviolinbox")
 ```
 
@@ -143,7 +143,7 @@ This package is licensed under the MIT License. See the `LICENSE` file for detai
 
 ## Acknowledgments
 
-- Inspired by the `ggridges`, ``ggExtra` and `ggplot2` packages.
+- Inspired by the `ggridges`, `ggExtra` and `ggplot2` packages.
 - Many thanks to the `introindataviz` package for previous implementations.
 
 ---
