@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use ggviolinbox in your research, please cite it as follows:"
+title: "ggviolinbox: Half-Violin and Half-Boxplot Geoms for ggplot2"
+version: 0.1.0
+date-released: "2025-03-16" 
+license: MIT
+authors:
+  - given-names: Daniil
+    family-names: Smutin
+    email: dvsmutin@gmail.com
+    orcid: "https://orcid.org/0009-0009-1460-4108"
+repository-code: "https://github.com/dsmutin/ggviolinbox"
+url: "https://github.com/dsmutin/ggviolinbox"
+keywords:
+  - "ggplot2"
+  - "data visualization"
+  - "violin plot"
+  - "boxplot"
+  - "R package"
+abstract: "The ggviolinbox package extends ggplot2 by providing custom geoms for creating half-violin plots, half-boxplots, and combinations of both. These functions are useful for visualizing distributions and comparisons in a compact and elegant way."
