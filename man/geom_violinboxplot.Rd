@@ -25,6 +25,7 @@ geom_violinboxplot(
   inherit.aes = TRUE,
   boxplot = "left",
   violinplot = "right",
+  nudge = 0,
   ...
 )
 
@@ -111,6 +112,10 @@ Must be either "left" or "right". Default is "left".}
 
 \item{violinplot}{A character string specifying which side the violin plot should appear on.
 Must be either "left" or "right". Default is "right".}
+
+\item{nudge}{Numeric. Horizontal nudge applied via \code{\link[ggplot2:position_nudge]{position_nudge}(x = nudge)}:
+the geom on the right uses \code{+nudge}, the geom on the left uses \code{-nudge}.
+Use \code{0} (default) for no nudge.}
 
 \item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{layer()}}'s \code{params} argument. These
 arguments broadly fall into one of 4 categories below. Notably, further
