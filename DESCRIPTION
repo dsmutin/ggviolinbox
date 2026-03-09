@@ -1,13 +1,13 @@
 Package: ggviolinbox
 Type: Package
 Title: Half violin and boxplot geoms for extended ggplot2 graphics 
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: person("Daniil", "Smutin", email = "dvsmutin@gmail.com", role = c("aut", "cre"))
 Description: The ggviolinbox package extends ggplot2 by providing custom geoms for creating half-violin plots, half-boxplots, and combinations of both. These functions are useful for visualizing distributions and comparisons in a compact and elegant way.
 License: MIT
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Imports: 
     ggplot2
 Suggests: 

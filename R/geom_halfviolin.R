@@ -40,9 +40,13 @@ geom_halfviolin <- function(mapping = NULL, data = NULL, stat = "ydensity",
   )
 }
 
-#' @rdname ggplot2-ggproto
+#' GeomHalfViolin ggproto object
+#'
+#' The ggproto object used by \code{\link{geom_halfviolin}} to render half-violins.
+#' @rdname geom_halfviolin
 #' @format NULL
 #' @usage NULL
+#' @keywords internal
 #' @export
 GeomHalfViolin <- ggplot2::ggproto(
   "GeomHalfViolin", ggplot2::GeomViolin,
