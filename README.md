@@ -29,6 +29,7 @@ ggplot(
   geom_halfviolin(panel = "left", position = position_nudge(x = -.2), width = .7) +
   theme_light()
 ```
+*Raincloud plots are not supported directly because of the ***ggplot2*** logic, but you can construct them with* `geom_violinbox() + geom_jitter() +coord_flip()` 
 
 ![Raincloud Plot](img/example.png)
 
