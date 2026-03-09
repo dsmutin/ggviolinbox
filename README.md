@@ -100,55 +100,6 @@ ggviolinbox(boxplot = "left", violinplot = "right") +
 
 ---
 
-## Examples
-
-### Example 1: Half-Violin Plot
-```r
-ggplot(mpg, aes(class, hwy)) +
-  geom_halfviolin(panel = "right", fill = "skyblue") +
-  labs(title = "Half-Violin Plot", x = "Class", y = "Highway MPG") +
-  theme_minimal()
-```
-
-### Example 2: Half-Boxplot
-```r
-ggplot(mpg, aes(class, hwy)) +
-  geom_halfboxplot(panel = "left", fill = "lightgreen") +
-  labs(title = "Half-Boxplot", x = "Class", y = "Highway MPG") +
-  theme_minimal()
-```
-
-### Example 3: Violin-Boxplot Combination
-```r
-ggplot(mpg, aes(class, hwy)) +
-  geom_violinboxplot(boxplot = "left", violinplot = "right", 
-                 box_fill = "lightgreen", violin_fill = "skyblue") +
-  labs(title = "Violin-Boxplot Combination", x = "Class", y = "Highway MPG") +
-  theme_minimal()
-```
-
----
-
-## Parameters
-
-### `geom_halfviolin()`
-- `panel`: Specifies which side to display (`"left"` or `"right"`).
-- All other parameters are inherited from `ggplot2::geom_violin()`.
-
-### `geom_halfboxplot()`
-- `panel`: Specifies which side to display (`"left"` or `"right"`).
-- All other parameters are inherited from `ggplot2::geom_boxplot()`.
-
-### `geom_violinboxplot()`
-- `boxplot`: Specifies which side the boxplot appears on (`"left"` or `"right"`).
-- `violinplot`: Specifies which side the violin plot appears on (`"left"` or `"right"`).
-- All other parameters are inherited from `ggplot2::geom_violin()` and `ggplot2::geom_boxplot()`.
-
-### `ggviolinbox()`
-- Same parameters as `geom_violinboxplot()`.
-
----
-
 ## Contributing
 
 Contributions are welcome! If you find a bug or have a feature request, please open an issue on GitHub. If you'd like to contribute code, fork the repository and submit a pull request.
