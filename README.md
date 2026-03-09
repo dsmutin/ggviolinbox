@@ -15,6 +15,25 @@ devtools::install_github("dsmutin/ggviolinbox")
 
 ---
 
+## Example
+
+```r 
+library(ggplot2)
+library(ggviolinbox)
+ggplot(
+    mutate(mpg, class = forcats::fct_reorder(class, hwy, .fun = mean)),
+    aes(class, hwy, fill = class)
+  ) +
+  geom_halfboxplot(panel = "right", outliers = F, position = position_nudge(x = .2), width = .3) +
+  geom_jitter(aes(color = class), alpha = .5, position = position_jitter(.1)) +
+  geom_halfviolin(panel = "left", position = position_nudge(x = -.2), width = .7) +
+  theme_light()
+```
+
+![Raincloud Plot](img/example.png)
+
+---
+
 ## Functions
 
 The package provides the following functions:
@@ -61,8 +80,9 @@ ggplot(mpg, aes(class, hwy)) +
 Combines a half-violin and a half-boxplot. Use the `boxplot` and `violinplot` parameters to specify which side each geom appears on.
 
 ```r
-ggplot(mpg, aes(class, hwy)) +
-  geom_violinboxplot(boxplot = "left", violinplot = "right") +
+ggplot(mpg, aes(class, hwy, fill = class)) +
+  geom_violinboxplot(boxplot = "left", violinplot = "right", 
+    outliers = F, width = .5) +
   theme_minimal()
 ```
 
