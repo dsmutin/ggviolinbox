@@ -1,8 +1,8 @@
 # `ggviolinbox`: Half-Violin and Half-Boxplot Geoms for ggplot2
 
-[![R package](https://github.com/dsmutin/ggviolinbox/workflows/R-package/badge.svg)](https://github.com/dsmutin/ggviolinbox/actions)
+[![R package](https://github.com/dsmutin/ggviolinbox/actions/workflows/R-package.yaml/badge.svg)](https://github.com/dsmutin/ggviolinbox/actions/workflows/R-package.yaml)
 
-The `ggviolinbox` package extends `ggplot2` by providing custom geoms for creating half-violin plots, half-boxplots, and combinations of both. These functions are useful for visualizing distributions and comparisons in a compact and elegant way.
+The `ggviolinbox` is the `ggplot2` extention with half violins and boxplots geoms (similar to python matplotlib boxplot/violinplot with side parameter)
 
 ---
 
@@ -44,11 +44,15 @@ The package provides the following functions:
 1. **`geom_halfviolin()`**: Creates a half-violin plot (mirrored density plot).
 2. **`geom_halfboxplot()`**: Creates a half-boxplot (mirrored boxplot).
 3. **`geom_violinboxplot()`**: Combines a half-violin and a half-boxplot into a single plot.
-4. **`ggviolinbox()`**: A convenience wrapper for `geom_violinbox()`.
+4. **`ggviolinbox()`**: A convenience wrapper for `ggplot()+geom_violinbox()`.
 
 ---
 
 ## Usage
+
+In general, all parameters except of `panel` is inhereted from **ggplot2** `geom_violin` or `geom_boxplot`
+- `panel` corresponde to the geom side
+- in `geom_violinbox()`, `nudge` controls the width between two geoms
 
 ### 1. `geom_halfviolin()`
 Creates a half-violin plot. Use the `panel` parameter to specify which side to display.
@@ -125,3 +129,9 @@ This package is licensed under the MIT License. See the `LICENSE` file for detai
 ## Contact
 
 For questions or feedback, please contact D. Smutin at `dvsmutin@gmail.com`.
+
+---
+
+## Possible issues
+- Similarly to `ggridges` or `ggpubr::stat_pwc`, only one axis for the categorial variables is now supported. If you want to switch axes, use `coord_flip()`
+- stable on: R 4.4.2, ggplot 4.0.1
