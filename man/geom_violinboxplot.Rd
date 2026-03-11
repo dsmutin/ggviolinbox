@@ -13,6 +13,7 @@ geom_violinboxplot(
   trim = TRUE,
   scale = "area",
   outlier.colour = NULL,
+  outlier.color = NULL,
   outlier.shape = 19,
   outlier.size = 1.5,
   outlier.stroke = 0.5,
@@ -58,6 +59,9 @@ the plot data. The return value must be a \code{data.frame}, and
 will be used as the layer data. A \code{function} can be created
 from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
+\item{stat}{The statistical transformation to use on the data. Defaults to
+\code{\"ydensity\"} as in \code{ggplot2::geom_violin()}.}
+
 \item{position}{A position adjustment to use on the data for this layer. This
 can be used in various ways, including to prevent overplotting and
 improving the display. The \code{position} argument accepts the following:
@@ -77,6 +81,18 @@ to the range of the data. If \code{FALSE}, don't trim the tails.}
 \item{scale}{if "area" (default), all violins have the same area (before trimming
 the tails). If "count", areas are scaled proportionally to the number of
 observations. If "width", all violins have the same maximum width.}
+
+\item{outlier.colour, outlier.color}{Colour for outlier points in the
+half-boxplot part. If \code{NULL}, inherits from the box colour.}
+
+\item{outlier.shape}{Shape of outlier points in the half-boxplot part.}
+
+\item{outlier.size}{Size of outlier points in the half-boxplot part.}
+
+\item{outlier.stroke}{Stroke width for outlier points in the half-boxplot part.}
+
+\item{outlier.alpha}{Alpha transparency for outlier points in the
+half-boxplot part.}
 
 \item{notch}{If \code{FALSE} (default) make a standard box plot. If
 \code{TRUE}, make a notched box plot. Notches are used to compare groups;

@@ -5,6 +5,15 @@
 #'
 #' @inheritParams ggplot2::geom_violin
 #' @inheritParams ggplot2::geom_boxplot
+#' @param stat The statistical transformation to use on the data. Defaults to
+#'   \code{\"ydensity\"} as in \code{ggplot2::geom_violin()}.
+#' @param outlier.colour,outlier.color Colour for outlier points in the
+#'   half-boxplot part. If \code{NULL}, inherits from the box colour.
+#' @param outlier.shape Shape of outlier points in the half-boxplot part.
+#' @param outlier.size Size of outlier points in the half-boxplot part.
+#' @param outlier.stroke Stroke width for outlier points in the half-boxplot part.
+#' @param outlier.alpha Alpha transparency for outlier points in the
+#'   half-boxplot part.
 #' @param boxplot A character string specifying which side the boxplot should appear on.
 #'   Must be either "left" or "right". Default is "left".
 #' @param violinplot A character string specifying which side the violin plot should appear on.
@@ -21,7 +30,7 @@
 #'   theme_minimal()
 geom_violinboxplot <- function(mapping = NULL, data = NULL, stat = "ydensity",
                                position = "dodge", trim = TRUE, scale = "area",
-                               outlier.colour = NULL, outlier.shape = 19,
+                               outlier.colour = NULL, outlier.color = NULL, outlier.shape = 19,
                                outlier.size = 1.5, outlier.stroke = 0.5, outlier.alpha = NULL,
                                notch = FALSE, notchwidth = 0.5, varwidth = FALSE, na.rm = FALSE,
                                show.legend = NA, inherit.aes = TRUE, boxplot = "left", violinplot = "right",
@@ -58,7 +67,7 @@ geom_violinboxplot <- function(mapping = NULL, data = NULL, stat = "ydensity",
     ),
     geom_halfboxplot(
       mapping = mapping, data = data, stat = "boxplot", position = pos_box,
-      outlier.colour = outlier.colour, outlier.shape = outlier.shape,
+      outlier.colour = outlier.colour, outlier.color = outlier.color, outlier.shape = outlier.shape,
       outlier.size = outlier.size, outlier.stroke = outlier.stroke,
       outlier.alpha = outlier.alpha, notch = notch, notchwidth = notchwidth,
       varwidth = varwidth, na.rm = na.rm, show.legend = show.legend,
