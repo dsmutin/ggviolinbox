@@ -27,6 +27,7 @@ geom_violinboxplot(
   boxplot = "left",
   violinplot = "right",
   nudge = 0,
+  orientation = NA,
   ...
 )
 
@@ -129,9 +130,14 @@ Must be either "left" or "right". Default is "left".}
 \item{violinplot}{A character string specifying which side the violin plot should appear on.
 Must be either "left" or "right". Default is "right".}
 
-\item{nudge}{Numeric. Horizontal nudge applied via \code{\link[ggplot2:position_nudge]{position_nudge}(x = nudge)}:
-the geom on the right uses \code{+nudge}, the geom on the left uses \code{-nudge}.
-Use \code{0} (default) for no nudge.}
+\item{nudge}{Numeric. Nudge applied along the discrete axis via
+\code{position_half_nudge()}: the geom on the right uses \code{+nudge},
+the geom on the left uses \code{-nudge}. Use \code{0} (default) for no nudge.}
+
+\item{orientation}{The orientation of the layer. The default (\code{NA})
+automatically determines the orientation from the aesthetic mapping. In the
+rare event that this fails it can be given explicitly by setting \code{orientation}
+to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more detail.}
 
 \item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{layer()}}'s \code{params} argument. These
 arguments broadly fall into one of 4 categories below. Notably, further
