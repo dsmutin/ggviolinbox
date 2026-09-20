@@ -22,7 +22,8 @@ geom_halfboxplot <- function(mapping = NULL, data = NULL, stat = "boxplot",
                              outlier.shape = 19, outlier.size = 1.5, outlier.stroke = 0.5,
                              outlier.alpha = NULL,
                              notch = FALSE, notchwidth = 0.5, varwidth = FALSE, na.rm = FALSE,
-                             show.legend = NA, inherit.aes = TRUE, panel = "left", ...) {
+                             show.legend = NA, inherit.aes = TRUE, panel = "left",
+                             orientation = NA, ...) {
   # Validate panel parameter
   if (!panel %in% c("left", "right")) {
     stop("panel must be either 'left' or 'right'")
@@ -55,6 +56,7 @@ geom_halfboxplot <- function(mapping = NULL, data = NULL, stat = "boxplot",
       varwidth = varwidth,
       na.rm = na.rm,
       panel = panel,
+      orientation = orientation,
       ...
     )
   )
@@ -73,18 +75,17 @@ GeomHalfBoxplot <- ggplot2::ggproto(
   extra_params = c("na.rm", "orientation", "outliers", "panel",
                    "outlier_gp", "notch", "notchwidth", "varwidth"),
   setup_data = function(self, data, params) {
-    # First let GeomBoxplot compute all boxplot statistics and widths
     data <- ggplot2::ggproto_parent(ggplot2::GeomBoxplot, self)$setup_data(data, params)
 
-    panel_side <- params$panel
-    if (is.null(panel_side) || panel_side == "left") {
-      # Keep only the left half: clamp xmax at the box centre
-      data$xmax <- data$x
-    } else if (panel_side == "right") {
-      # Keep only the right half: clamp xmin at the box centre
-      data$xmin <- data$x
+    flipped_aes <- params$flipped_aes
+    if (is.null(flipped_aes) && "flipped_aes" %in% names(data)) {
+      flipped_aes <- data$flipped_aes
     }
 
-    data
+    clip_half_panel(
+      data,
+      panel = params$panel,
+      flipped_aes = flipped_aes
+    )
   }
 )

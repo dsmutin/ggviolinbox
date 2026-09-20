@@ -16,7 +16,8 @@
 #'   theme_minimal()
 geom_halfviolin <- function(mapping = NULL, data = NULL, stat = "ydensity",
                             position = "dodge", trim = TRUE, scale = "area",
-                            show.legend = NA, inherit.aes = TRUE, panel = "left", ...) {
+                            na.rm = FALSE, show.legend = NA, inherit.aes = TRUE,
+                            panel = "left", orientation = NA, ...) {
   # Validate panel parameter
   if (!panel %in% c("left", "right")) {
     stop("panel must be either 'left' or 'right'")
@@ -34,7 +35,9 @@ geom_halfviolin <- function(mapping = NULL, data = NULL, stat = "ydensity",
     params = list(
       trim = trim,
       scale = scale,
+      na.rm = na.rm,
       panel = panel,
+      orientation = orientation,
       ...
     )
   )
@@ -50,13 +53,19 @@ geom_halfviolin <- function(mapping = NULL, data = NULL, stat = "ydensity",
 #' @export
 GeomHalfViolin <- ggplot2::ggproto(
   "GeomHalfViolin", ggplot2::GeomViolin,
-  draw_group = function(data, panel, ...) {
-    # Clip the violin to show only the left or right half
-    if (panel == "left") {
-      data$xmax <- data$x
-    } else if (panel == "right") {
-      data$xmin <- data$x
+  extra_params = c("na.rm", "orientation", "lineend", "linejoin", "linemitre", "panel"),
+  setup_data = function(self, data, params) {
+    data <- ggplot2::ggproto_parent(ggplot2::GeomViolin, self)$setup_data(data, params)
+
+    flipped_aes <- params$flipped_aes
+    if (is.null(flipped_aes) && "flipped_aes" %in% names(data)) {
+      flipped_aes <- data$flipped_aes
     }
-    ggplot2::GeomViolin$draw_group(data, ...)
+
+    clip_half_panel(
+      data,
+      panel = params$panel,
+      flipped_aes = flipped_aes
+    )
   }
 )

@@ -18,9 +18,9 @@
 #'   Must be either "left" or "right". Default is "left".
 #' @param violinplot A character string specifying which side the violin plot should appear on.
 #'   Must be either "left" or "right". Default is "right".
-#' @param nudge Numeric. Horizontal nudge applied via \code{\link[ggplot2:position_nudge]{position_nudge}(x = nudge)}:
-#'   the geom on the right uses \code{+nudge}, the geom on the left uses \code{-nudge}.
-#'   Use \code{0} (default) for no nudge.
+#' @param nudge Numeric. Nudge applied along the discrete axis via
+#'   \code{position_half_nudge()}: the geom on the right uses \code{+nudge},
+#'   the geom on the left uses \code{-nudge}. Use \code{0} (default) for no nudge.
 #' @import ggplot2
 #' @export
 #' @examples
@@ -34,7 +34,7 @@ geom_violinboxplot <- function(mapping = NULL, data = NULL, stat = "ydensity",
                                outlier.size = 1.5, outlier.stroke = 0.5, outlier.alpha = NULL,
                                notch = FALSE, notchwidth = 0.5, varwidth = FALSE, na.rm = FALSE,
                                show.legend = NA, inherit.aes = TRUE, boxplot = "left", violinplot = "right",
-                               nudge = 0, ...) {
+                               nudge = 0, orientation = NA, ...) {
   # Validate boxplot and violinplot parameters
   if (!boxplot %in% c("left", "right")) {
     stop("boxplot must be either 'left' or 'right'")
@@ -46,14 +46,14 @@ geom_violinboxplot <- function(mapping = NULL, data = NULL, stat = "ydensity",
     stop("boxplot and violinplot cannot be on the same side")
   }
 
-  # Position with nudge: right geom +nudge, left geom -nudge
+  # Position with nudge along the discrete axis
   pos_violin <- if (nudge != 0) {
-    ggplot2::position_nudge(x = if (violinplot == "right") nudge else -nudge)
+    position_half_nudge(nudge = nudge, side = violinplot)
   } else {
     position
   }
   pos_box <- if (nudge != 0) {
-    ggplot2::position_nudge(x = if (boxplot == "right") nudge else -nudge)
+    position_half_nudge(nudge = nudge, side = boxplot)
   } else {
     position
   }
@@ -63,7 +63,7 @@ geom_violinboxplot <- function(mapping = NULL, data = NULL, stat = "ydensity",
     geom_halfviolin(
       mapping = mapping, data = data, stat = stat, position = pos_violin,
       trim = trim, scale = scale, show.legend = show.legend,
-      inherit.aes = inherit.aes, panel = violinplot, ...
+      inherit.aes = inherit.aes, panel = violinplot, orientation = orientation, ...
     ),
     geom_halfboxplot(
       mapping = mapping, data = data, stat = "boxplot", position = pos_box,
@@ -71,7 +71,7 @@ geom_violinboxplot <- function(mapping = NULL, data = NULL, stat = "ydensity",
       outlier.size = outlier.size, outlier.stroke = outlier.stroke,
       outlier.alpha = outlier.alpha, notch = notch, notchwidth = notchwidth,
       varwidth = varwidth, na.rm = na.rm, show.legend = show.legend,
-      inherit.aes = inherit.aes, panel = boxplot, ...
+      inherit.aes = inherit.aes, panel = boxplot, orientation = orientation, ...
     )
   )
 }
