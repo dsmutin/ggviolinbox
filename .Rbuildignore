@@ -1,3 +1,4 @@
 ^\\.github$
 ^img$
 ^CITATION\\.cff$
+^Rplots\\.pdf$

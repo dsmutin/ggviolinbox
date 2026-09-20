@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use ggviolinbox in your research, please cite it as follows:"
 title: "ggviolinbox: Half-Violin and Half-Boxplot Geoms for ggplot2"
-version: 0.1.0
-date-released: "2025-03-16" 
+version: 1.1.0
+date-released: "2026-09-20" 
 license: MIT
 authors:
   - given-names: Daniil
