@@ -22,6 +22,7 @@ geom_violinboxplot(
   notchwidth = 0.5,
   varwidth = FALSE,
   na.rm = FALSE,
+  orientation = NA,
   show.legend = NA,
   inherit.aes = TRUE,
   boxplot = "left",
@@ -60,7 +61,7 @@ will be used as the layer data. A \code{function} can be created
 from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
 \item{stat}{The statistical transformation to use on the data. Defaults to
-\code{\"ydensity\"} as in \code{ggplot2::geom_violin()}.}
+\code{"ydensity"} as in \code{ggplot2::geom_violin()}.}
 
 \item{position}{A position adjustment to use on the data for this layer. This
 can be used in various ways, including to prevent overplotting and
@@ -110,6 +111,11 @@ weighted, using the \code{weight} aesthetic).}
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
 
+\item{orientation}{The orientation of the layer. The default (\code{NA})
+automatically determines the orientation from the aesthetic mapping. In the
+rare event that this fails it can be given explicitly by setting \code{orientation}
+to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more detail.}
+
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
 \code{FALSE} never includes, and \code{TRUE} always includes.
@@ -123,15 +129,17 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
 
-\item{boxplot}{A character string specifying which side the boxplot should appear on.
-Must be either "left" or "right". Default is "left".}
+\item{boxplot}{Side for the boxplot: \code{"left"}, \code{"right"}, \code{"bottom"}, or \code{"top"}.
+Default is \code{"left"}.}
 
-\item{violinplot}{A character string specifying which side the violin plot should appear on.
-Must be either "left" or "right". Default is "right".}
+\item{violinplot}{Side for the violin: \code{"left"}, \code{"right"}, \code{"bottom"}, or \code{"top"}.
+Default is \code{"right"}.}
 
-\item{nudge}{Numeric. Horizontal nudge applied via \code{\link[ggplot2:position_nudge]{position_nudge}(x = nudge)}:
-the geom on the right uses \code{+nudge}, the geom on the left uses \code{-nudge}.
-Use \code{0} (default) for no nudge.}
+\item{nudge}{Numeric offset along the grouping axis (x when vertical, y when
+horizontal). The geom on the \code{"right"}/\code{"top"} side is shifted by
+\code{+nudge}; the geom on the \code{"left"}/\code{"bottom"} side by \code{-nudge}.
+Use \code{0} (default) for no offset. Unlike a \code{position_nudge()} replacement,
+this keeps the requested \code{position} (e.g. dodge).}
 
 \item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{layer()}}'s \code{params} argument. These
 arguments broadly fall into one of 4 categories below. Notably, further
@@ -169,5 +177,9 @@ It allows specifying which side the boxplot and violin plot should appear on.
 library(ggplot2)
 ggplot(mpg, aes(class, hwy)) +
   geom_violinboxplot(boxplot = "left", violinplot = "right") +
+  theme_minimal()
+
+ggplot(mpg, aes(hwy, class)) +
+  geom_violinboxplot(boxplot = "bottom", violinplot = "top") +
   theme_minimal()
 }

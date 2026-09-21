@@ -5,8 +5,13 @@
 #' to control which side of the plot is displayed.
 #'
 #' @inheritParams ggplot2::geom_violin
-#' @param panel A character string specifying which side of the plot to display.
-#'   Must be either "left" or "right". Default is "left".
+#' @param panel Which half of the violin to draw. `"left"` / `"right"` clip along
+#'   a vertical grouping axis (`aes(x = group, y = value)`). `"bottom"` / `"top"`
+#'   clip along a horizontal grouping axis (`aes(x = value, y = group)`).
+#'   `"left"` is treated as `"bottom"` and `"right"` as `"top"` when the layer
+#'   is flipped, so the same `panel` values work without `coord_flip()`.
+#' @param nudge Offset along the grouping axis (x when vertical, y when
+#'   horizontal), applied after statistics. Default is `0`.
 #' @import ggplot2
 #' @export
 #' @examples
@@ -14,15 +19,18 @@
 #' ggplot(mpg, aes(class, hwy)) +
 #'   geom_halfviolin(panel = "right") +
 #'   theme_minimal()
+#'
+#' # Horizontal half-violin without coord_flip()
+#' ggplot(mpg, aes(hwy, class)) +
+#'   geom_halfviolin(panel = "top") +
+#'   theme_minimal()
 geom_halfviolin <- function(mapping = NULL, data = NULL, stat = "ydensity",
                             position = "dodge", trim = TRUE, scale = "area",
-                            show.legend = NA, inherit.aes = TRUE, panel = "left", ...) {
-  # Validate panel parameter
-  if (!panel %in% c("left", "right")) {
-    stop("panel must be either 'left' or 'right'")
-  }
+                            na.rm = FALSE, orientation = NA,
+                            show.legend = NA, inherit.aes = TRUE, panel = "left",
+                            nudge = 0, ...) {
+  check_panel(panel)
 
-  # Create a layer for half-violin
   ggplot2::layer(
     data = data,
     mapping = mapping,
@@ -34,7 +42,10 @@ geom_halfviolin <- function(mapping = NULL, data = NULL, stat = "ydensity",
     params = list(
       trim = trim,
       scale = scale,
+      na.rm = na.rm,
+      orientation = orientation,
       panel = panel,
+      nudge = nudge,
       ...
     )
   )
@@ -50,13 +61,10 @@ geom_halfviolin <- function(mapping = NULL, data = NULL, stat = "ydensity",
 #' @export
 GeomHalfViolin <- ggplot2::ggproto(
   "GeomHalfViolin", ggplot2::GeomViolin,
-  draw_group = function(data, panel, ...) {
-    # Clip the violin to show only the left or right half
-    if (panel == "left") {
-      data$xmax <- data$x
-    } else if (panel == "right") {
-      data$xmin <- data$x
-    }
-    ggplot2::GeomViolin$draw_group(data, ...)
+  extra_params = c("na.rm", "orientation", "lineend", "linejoin", "linemitre",
+                   "panel", "nudge"),
+  setup_data = function(self, data, params) {
+    data <- ggplot2::ggproto_parent(ggplot2::GeomViolin, self)$setup_data(data, params)
+    prepare_half_data(data, params)
   }
 )

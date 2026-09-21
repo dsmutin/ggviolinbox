@@ -7,8 +7,13 @@
 #' @inheritParams ggplot2::geom_boxplot
 #' @param outliers Whether to display (`TRUE`) or discard (`FALSE`) outliers.
 #'   Same as in `ggplot2::geom_boxplot()`.
-#' @param panel A character string specifying which side of the plot to display.
-#'   Must be either "left" or "right". Default is "left".
+#' @param panel Which half of the box to draw. `"left"` / `"right"` clip along
+#'   a vertical grouping axis (`aes(x = group, y = value)`). `"bottom"` / `"top"`
+#'   clip along a horizontal grouping axis (`aes(x = value, y = group)`).
+#'   `"left"` is treated as `"bottom"` and `"right"` as `"top"` when the layer
+#'   is flipped, so the same `panel` values work without `coord_flip()`.
+#' @param nudge Offset along the grouping axis (x when vertical, y when
+#'   horizontal), applied after statistics. Default is `0`.
 #' @import ggplot2
 #' @export
 #' @examples
@@ -16,19 +21,22 @@
 #' ggplot(mpg, aes(class, hwy)) +
 #'   geom_halfboxplot(panel = "left") +
 #'   theme_minimal()
+#'
+#' # Horizontal half-boxplot without coord_flip()
+#' ggplot(mpg, aes(hwy, class)) +
+#'   geom_halfboxplot(panel = "bottom") +
+#'   theme_minimal()
 geom_halfboxplot <- function(mapping = NULL, data = NULL, stat = "boxplot",
                              position = "dodge", outliers = TRUE,
                              outlier.colour = NULL, outlier.color = NULL, outlier.fill = NULL,
                              outlier.shape = 19, outlier.size = 1.5, outlier.stroke = 0.5,
                              outlier.alpha = NULL,
                              notch = FALSE, notchwidth = 0.5, varwidth = FALSE, na.rm = FALSE,
-                             show.legend = NA, inherit.aes = TRUE, panel = "left", ...) {
-  # Validate panel parameter
-  if (!panel %in% c("left", "right")) {
-    stop("panel must be either 'left' or 'right'")
-  }
+                             orientation = NA,
+                             show.legend = NA, inherit.aes = TRUE, panel = "left",
+                             nudge = 0, ...) {
+  check_panel(panel)
 
-  # Build outlier_gp so parent GeomBoxplot draw_group receives outlier aesthetics
   outlier_gp <- list(
     colour = if (!is.null(outlier.color)) outlier.color else outlier.colour,
     fill = outlier.fill,
@@ -38,7 +46,6 @@ geom_halfboxplot <- function(mapping = NULL, data = NULL, stat = "boxplot",
     alpha = outlier.alpha
   )
 
-  # Create a layer for half-boxplot
   ggplot2::layer(
     data = data,
     mapping = mapping,
@@ -54,7 +61,9 @@ geom_halfboxplot <- function(mapping = NULL, data = NULL, stat = "boxplot",
       notchwidth = notchwidth,
       varwidth = varwidth,
       na.rm = na.rm,
+      orientation = orientation,
       panel = panel,
+      nudge = nudge,
       ...
     )
   )
@@ -70,21 +79,9 @@ geom_halfboxplot <- function(mapping = NULL, data = NULL, stat = "boxplot",
 #' @export
 GeomHalfBoxplot <- ggplot2::ggproto(
   "GeomHalfBoxplot", ggplot2::GeomBoxplot,
-  extra_params = c("na.rm", "orientation", "outliers", "panel",
-                   "outlier_gp", "notch", "notchwidth", "varwidth"),
+  extra_params = c("na.rm", "orientation", "outliers", "panel", "nudge"),
   setup_data = function(self, data, params) {
-    # First let GeomBoxplot compute all boxplot statistics and widths
     data <- ggplot2::ggproto_parent(ggplot2::GeomBoxplot, self)$setup_data(data, params)
-
-    panel_side <- params$panel
-    if (is.null(panel_side) || panel_side == "left") {
-      # Keep only the left half: clamp xmax at the box centre
-      data$xmax <- data$x
-    } else if (panel_side == "right") {
-      # Keep only the right half: clamp xmin at the box centre
-      data$xmin <- data$x
-    }
-
-    data
+    prepare_half_data(data, params)
   }
 )

@@ -1,3 +1,6 @@
-^\\.github$
+^\.github$
 ^img$
-^CITATION\\.cff$
+^CITATION\.cff$
+^Rplots\.pdf$
+^ggviolinbox\.Rcheck$
+^.*\.tar\.gz$
