@@ -31,14 +31,6 @@ ggplot(
   geom_halfviolin(panel = "left", position = position_nudge(x = -.2), width = .7) +
   theme_light()
 ```
-*Raincloud-style plots can use native y orientation (no `coord_flip()` required):*
-
-```r
-ggplot(mpg, aes(hwy, class, fill = class)) +
-  geom_violinboxplot(boxplot = "bottom", violinplot = "top", outliers = FALSE, nudge = 0.1) +
-  geom_jitter(aes(color = class), height = 0.1, width = 0, alpha = 0.4) +
-  theme_light()
-```
 
 ![Raincloud Plot](img/example.png)
 
